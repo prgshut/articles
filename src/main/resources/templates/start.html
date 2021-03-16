@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Каталог товаров</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+    <form method="get" th:action="@{/start/run}">
+        <div class="form-group col-md-6">
+            <label for="tрInput">Количество потоков</label>
+            <input class="form-control" th:value="${th != null ? th : null}" name="th" type="number" id="tрInput">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="tdrInput">Общее колличество записей</label>
+            <input class="form-control" th:value="${tdr != null ? tdr: null}" name="tdr" type="number" id="tdrInput">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="otdrInput">Колличество записей за один цикл</label>
+            <input class="form-control" th:value="${otdr != null ? otdr : null}" name="otdr" type="number" id="otdrInput">
+        </div>
+
+        <button class="btn btn-primary" type="submit">Старт</button>
+
+    </form>
+    <form method="get" th:action="@{/start/badword}">
+        <div class="form-group col-md-6">
+            <label for="badWord">Добавить слово в черный список</label>
+            <input class="form-control" th:value="${word != null ? word : null}" name="word" type="text" id="badWord">
+        </div>
+
+
+        <button class="btn btn-primary" type="submit">Старт</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>
