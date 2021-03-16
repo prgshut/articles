@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import ru.test.newsgather.dto.ArticleDto;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Data
@@ -25,19 +26,21 @@ public class LoadArticle {
         this.start = start;
     }
 
-    public void retunLoadArticle(){
+    public void retunLoadArticle() {
         CloseableHttpClient httpClient = HttpClients.custom().setSSLHostnameVerifier(new NoopHostnameVerifier()).build();
 
         HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
         requestFactory.setHttpClient(httpClient);
 
         RestTemplate restTemplate = new RestTemplate(requestFactory);
-    StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append("https://test.spaceflightnewsapi.net/api/v2/articles")
-            .append("?_limit=").append(limit).append("&_start=").append(start);
-    ArticleDto articleDtoList= restTemplate.getForObject(stringBuilder.toString(),ArticleDto.class);
-        System.out.println();
-    System.out.println(articleDtoList.toString());
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("https://test.spaceflightnewsapi.net/api/v2/articles")
+                .append("?_limit=").append(limit).append("&_start=").append(start);
+        System.out.println(stringBuilder.toString());
+        ArticleDto[] articleDtoList = restTemplate.getForObject(stringBuilder.toString(), ArticleDto[].class);
+
+
+        System.out.println(articleDtoList[0].toString());
     }
 
 }
