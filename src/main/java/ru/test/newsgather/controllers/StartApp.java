@@ -20,7 +20,7 @@ public class StartApp {
     }
 
     @GetMapping("/run")
-    public String runLoading(@RequestParam(defaultValue = "1", name = "numberThreads") Integer numberThreads,
+    public String runLoading(@RequestParam(defaultValue = "1", name = "th") Integer numberThreads,
                              @RequestParam(defaultValue = "1", name = "tdr") Integer totalDowRec,
                              @RequestParam(defaultValue = "1", name = "otdr") Integer oneThreadDowRec) {
         StartThreads startThreads = new StartThreads(numberThreads,totalDowRec,oneThreadDowRec);
