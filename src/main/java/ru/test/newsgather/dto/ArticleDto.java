@@ -3,7 +3,7 @@ package ru.test.newsgather.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-import java.time.ZonedDateTime;
+import java.time.OffsetDateTime;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ArticleDto {
@@ -14,6 +14,6 @@ public class ArticleDto {
     private String imageUrl;
     private String newsSite;
     private String summary;
-    private ZonedDateTime publishedAt;
+    private OffsetDateTime publishedAt;
 
 }

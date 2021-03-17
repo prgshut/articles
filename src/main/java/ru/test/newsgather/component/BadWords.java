@@ -1,4 +1,4 @@
-package ru.test.newsgather.utils;
+package ru.test.newsgather.component;
 
 import org.springframework.stereotype.Component;
 

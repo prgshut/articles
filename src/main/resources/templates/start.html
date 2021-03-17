@@ -28,6 +28,10 @@
             <label for="otdrInput">Колличество записей за один цикл</label>
             <input class="form-control" th:value="${otdr != null ? otdr : null}" name="otdr" type="number" id="otdrInput">
         </div>
+        <div class="form-group col-md-6">
+            <label for="numartInput">Колличество записей за один цикл</label>
+            <input class="form-control" th:value="${numart != null ? numart : null}" name="numart" type="number" id="numartInput">
+        </div>
 
         <button class="btn btn-primary" type="submit">Старт</button>
 
@@ -39,7 +43,7 @@
         </div>
 
 
-        <button class="btn btn-primary" type="submit">Старт</button>
+        <button class="btn btn-primary" type="submit">Добавить</button>
 
     </form>
 

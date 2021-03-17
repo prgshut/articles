@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "articles")
@@ -24,12 +25,12 @@ public class Article {
     private  String newsSite;
 
     @Column(name = "published_date")
-    private String publishedDate;
+    private OffsetDateTime publishedDate;
 
     @Column(name = "article")
     private String article;
 
-    public Article(String id, String title, String newsSite, String publishedDate, String article) {
+    public Article(String id, String title, String newsSite, OffsetDateTime publishedDate, String article) {
         this.id = id;
         this.title = title;
         this.newsSite = newsSite;
