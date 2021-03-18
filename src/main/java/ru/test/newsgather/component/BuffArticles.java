@@ -2,6 +2,7 @@ package ru.test.newsgather.component;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
@@ -16,6 +17,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 @Log4j2
 @Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class BuffArticles {
     private ConcurrentHashMap<String, List<ArticleDto>> map = new ConcurrentHashMap<>();
     private int numArticlesOneSite;
@@ -38,22 +40,20 @@ public class BuffArticles {
             map.put(key, list);
         }
         if (map.get(key).size()>=numArticlesOneSite){
-            articleService.save(key, map.get(key));
+            log.info("Сохраняем ");
+            articleService.save(map.get(key));
             map.remove(key);
         }
         lock.unlock();
     }
 
     public void saveBuffer(){
+        log.info("Сохраняем весь буфер");
         for (Map.Entry<String, List<ArticleDto>> entry : map.entrySet()) {
-            articleService.save(entry.getKey(),entry.getValue());
+            articleService.save(entry.getValue());
         }
+
         map.clear();
     }
-
-    private void removeArticles(String key){
-        map.remove(key);
-    }
-
 
 }

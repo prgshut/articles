@@ -1,7 +1,9 @@
 package ru.test.newsgather.component;
 
 import lombok.NoArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
@@ -14,8 +16,10 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@Log4j2
 @Component
 @NoArgsConstructor
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class StartThreads {
 
     private BadWords badWords;
@@ -23,20 +27,18 @@ public class StartThreads {
 
     @Autowired
     public void setBadWords(BadWords badWords) {
-        System.out.println("badWords " + badWords);
         this.badWords = badWords;
     }
 
     @Autowired
     public void setBuffArticles(BuffArticles buffArticles) {
-        System.out.println("buffArticles " + buffArticles);
         this.buffArticles = buffArticles;
     }
 
-    public void start(int numberThreads, int totalDowRec, int oneThreadDowRec) {
-
+    public void start(int numberThreads, int totalDowRec, int oneThreadDowRec, int numArticlesOneSite) {
+        buffArticles.setNumArticlesOneSite(numArticlesOneSite);
         ExecutorService service = Executors.newFixedThreadPool(numberThreads);
-        System.out.println("Создали потоки " + numberThreads);
+        log.info("Создали потоки " + numberThreads);
         int sumTasks = totalDowRec / numberThreads; // сколько записей должен считать каждый поток
         if (sumTasks == 0) {
             sumTasks = 1;
@@ -50,8 +52,6 @@ public class StartThreads {
             service.execute(new Runnable() {
                 @Override
                 public void run() {
-                    System.out.println("запустили поток со стартовой позицией  " + downStartPosit);
-
                     List<ArticleDto> list = new LinkedList<>();
                     for (int j = downStartPosit; j < downStartPosit + taskSum; j = j + oneThreadDowRec) {
                         list.addAll(Arrays.asList(LoadArticle.retunLoadArticle(oneThreadDowRec, j)));
@@ -66,13 +66,12 @@ public class StartThreads {
                     });
                     Map<String, List<ArticleDto>> map = new HashMap<>();
                     for (ArticleDto a : list) {
-                        String[] temp = a.getUrl().split("/");
-                        map.computeIfAbsent(temp[2], k -> new LinkedList<>()).add(a);
+                         map.computeIfAbsent(a.getNewsSite(), k -> new LinkedList<>()).add(a);
                     }
                     for (Map.Entry<String, List<ArticleDto>> entry : map.entrySet()) {
                         buffArticles.addArticle(entry.getKey(), entry.getValue());
                     }
-                    System.out.println("Поток отправил все в буфер ");
+                    log.info("Поток отправил все в буфер ");
 
                 }
             });

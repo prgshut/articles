@@ -8,6 +8,7 @@ import ru.test.newsgather.entities.Article;
 import ru.test.newsgather.repositories.ArticleRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Log4j2
 @Service
@@ -18,17 +19,22 @@ public class ArticleService {
         this.articleRepository = articleRepository;
     }
 
-    public void save(String site, List<ArticleDto> articleDtoList){
-        for (ArticleDto articleDto : articleDtoList) {
-            Article article =new Article();
-            article.setId(articleDto.getId());
-            article.setTitle(site);
-            article.setNewsSite(articleDto.getNewsSite());
-            article.setPublishedDate(articleDto.getPublishedAt());
-            article.setArticle(article.getArticle());
+    public List<Article> getAllArticles(){
+        return articleRepository.findAll();
+    }
+    public Optional<Article> getOneId(String id){
+        return articleRepository.findById(id);
+    }
+    public List<Article> getArticlesNewsSite(String newSite){
+        return articleRepository.findArticlesByNewsSiteEquals(newSite);
+    }
+
+    public void save(List<ArticleDto> articleDtoList){
+        for (ArticleDto o : articleDtoList) {
+            Article article =new Article(o.getId(),o.getTitle(),o.getNewsSite(),o.getPublishedAt(),o.getSummary());
             articleRepository.save(article);
             log.info("save entities in base repository");
-            log.info("articleDto " + articleDto);
+            log.info("articleDto " + o);
             log.info("article "+article);
         }
     }

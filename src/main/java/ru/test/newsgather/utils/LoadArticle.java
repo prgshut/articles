@@ -22,7 +22,6 @@ public class LoadArticle {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("https://test.spaceflightnewsapi.net/api/v2/articles")
                 .append("?_limit=").append(limit).append("&_start=").append(start);
-        System.out.println(stringBuilder.toString());
         ArticleDto[] articleDtoArr = restTemplate.getForObject(stringBuilder.toString(), ArticleDto[].class);
         return articleDtoArr;
 //        int i = 1;
