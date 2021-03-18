@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.test.newsgather.component.BadWords;
-import ru.test.newsgather.component.BuffArticles;
 import ru.test.newsgather.component.StartThreads;
 
 @Log4j2

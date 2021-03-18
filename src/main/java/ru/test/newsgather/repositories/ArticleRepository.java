@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import ru.test.newsgather.entities.Article;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface ArticleRepository extends JpaRepository<Article,String> {

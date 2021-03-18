@@ -24,12 +24,7 @@ public class LoadArticle {
                 .append("?_limit=").append(limit).append("&_start=").append(start);
         ArticleDto[] articleDtoArr = restTemplate.getForObject(stringBuilder.toString(), ArticleDto[].class);
         return articleDtoArr;
-//        int i = 1;
-//        for (ArticleDto dto : articleDtoList) {
-//            System.out.println(i);
-//            System.out.println(dto);
-//            i++;
-//        }
+
     }
 
 }
